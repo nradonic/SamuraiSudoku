@@ -32,7 +32,7 @@ public class SmallBlock
     public String reportRow(int row)
     {
         String result = "";
-        result += String.join("-", smallBlock[row][0].report(),
+        result += String.join(" - ", smallBlock[row][0].report(),
                 smallBlock[row][1].report(),
                 smallBlock[row][2].report());
         return result;
@@ -45,7 +45,10 @@ public class SmallBlock
             return "Invalid";
         }
         smallBlock[row][col].markDigit(digit, status);
-        unPossible(row,col,digit);
+        if (status == CellStatus.fixed || status == CellStatus.calculated)
+        {
+            unPossible(row, col, digit);
+        }
         return "Valid";
     }
 
@@ -92,11 +95,11 @@ public class SmallBlock
 
     public void unPossible(int row, int col, int digit)
     {
-        for (int rowIndex = 0; rowIndex < 3 ; rowIndex++)
+        for (int rowIndex = 0; rowIndex < 3; rowIndex++)
         {
             for (int colIndex = 0; colIndex < 3; colIndex++)
             {
-                if (rowIndex!=row || colIndex != col)
+                if (rowIndex != row || colIndex != col)
                 {
                     smallBlock[rowIndex][colIndex].markDigitNotPossible(digit);
                 }
@@ -104,4 +107,31 @@ public class SmallBlock
         }
     }
 
+    public void unPossibleInRow(int row, int digit)
+    {
+        for (int rowIndex = 0; rowIndex < 3; rowIndex++)
+        {
+            if (rowIndex == row)
+            {
+                for (int colIndex = 0; colIndex < 3; colIndex++)
+                {
+                    smallBlock[rowIndex][colIndex].markDigitNotPossible(digit);
+                }
+            }
+        }
+    }
+
+    public void unPossibleInCol(int col, int digit)
+    {
+        for (int rowIndex = 0; rowIndex < 3; rowIndex++)
+        {
+            for (int colIndex = 0; colIndex < 3; colIndex++)
+            {
+                if (colIndex == col)
+                {
+                    smallBlock[rowIndex][colIndex].markDigitNotPossible(digit);
+                }
+            }
+        }
+    }
 }

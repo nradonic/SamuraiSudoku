@@ -1,5 +1,7 @@
 package data_structures;
 
+import static org.apache.maven.surefire.shade.org.apache.commons.lang3.StringUtils.leftPad;
+
 public class SudokuCell
 {
     final int digits = 10;
@@ -20,13 +22,13 @@ public class SudokuCell
     public String report()
     {
         boolean b = existsStatus(CellStatus.fixed);
-        if (b) return "F" + whichValues(CellStatus.fixed);
+        if (b) return leftPad("F" + whichValues(CellStatus.fixed),10);
 
         b = existsStatus(CellStatus.possible);
-        if (b) return "P" + whichValues(CellStatus.possible);
+        if (b) return leftPad( "P" + whichValues(CellStatus.possible),10);
 
         b = existsStatus(CellStatus.calculated);
-        if (b) return "C" + whichValues(CellStatus.calculated);
+        if (b) return leftPad("C" + whichValues(CellStatus.calculated),10);
 
         return "Error no fixed, calculated, or possible cell value";
     }
@@ -51,7 +53,9 @@ public class SudokuCell
             if (sudokuValues[i] == status)
             {
                 result.append(i);
+                continue;
             }
+            result.append(" ");
         }
         return result.toString();
     }

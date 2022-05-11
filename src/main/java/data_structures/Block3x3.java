@@ -32,7 +32,7 @@ public class Block3x3
                     k += block3x3[blockRow][blockCol].reportRow(smallBlockRow);
                     if (blockCol < width - 1)
                     {
-                        k += "-";
+                        k += " - ";
                     }
                 }
                 result.append(k);
@@ -48,9 +48,10 @@ public class Block3x3
     public String reportBlock3x3ShortFormat()
     {
         String reportLong = this.reportBlock3x3();
-        String reportShort = reportLong.replace("P123456789", "  ");
-        reportShort += "\n";
-        return reportShort;
+//        String reportShort = reportLong.replace("P123456789", "  ");
+//        reportShort += "\n";
+//        return reportShort;
+        return reportLong;
     }
 
     public String markCell(int blockRow, int blockCol, int row, int col, int digit, CellStatus status)
@@ -62,7 +63,27 @@ public class Block3x3
             return "Invalid";
         }
         String result = "";
-        result = block3x3[blockRow][blockCol].setCell(row, col, digit, status);
+        for (int blockRowIndex = 0; blockRowIndex < 3; blockRowIndex++)
+        {
+            for (int blockColIndex = 0; blockColIndex < 3; blockColIndex++)
+            {
+                if (blockRowIndex == blockRow && blockColIndex == blockCol)
+                {
+                    result = block3x3[blockRowIndex][blockColIndex].setCell(row, col, digit, status);
+                    continue;
+                }
+                if (blockRowIndex == blockRow)
+                {
+                    block3x3[blockRowIndex][blockColIndex].unPossibleInRow(row, digit);
+                    continue;
+                }
+                if (blockColIndex == blockCol)
+                {
+                    block3x3[blockRowIndex][blockColIndex].unPossibleInCol(col, digit);
+                }
+            }
+        }
+
         return result;
     }
 
@@ -92,5 +113,7 @@ public class Block3x3
     public boolean containsDefiniteDigitInSmallBlock(int blockRow, int blockCol, int digit)
     {
         return block3x3[blockRow][blockCol].isDigitInSmallBlock(digit);
-    };
+    }
+
+    ;
 }

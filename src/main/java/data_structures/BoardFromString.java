@@ -11,22 +11,25 @@ public class BoardFromString
         String[] rows = b2.split("\n");
         // 9 lines
         assert (rows.length == 9);
-        for (int columnCount = 0; columnCount < 9; columnCount++)
+
+        for (int rowIndex = 0; rowIndex < 9; rowIndex++)
         {
-            String[] dataBits = rows[columnCount].split("-");
+            String[] dataBits = rows[rowIndex].split("-");
             assert (dataBits.length == 9);
-            int blockRow = columnCount / 3;
-            int row = columnCount % 3;
+
+            int blockRow = rowIndex / 3;
+            int row = blockRow % 3;
 
             for (int column = 0; column < 9; column++)
             {
                 int blockCol = column / 3;
                 int col = column % 3;
+
                 String item = dataBits[column];
                 CellStatus status = CellStatus.getStatusFromString(item);
-                for (int k = 1; k < item.length(); k++)
+                if(status == CellStatus.fixed)
                 {
-                    int digit = Integer.parseInt(item.substring(k, k + 1));
+                    int digit = Integer.parseInt(item.substring(1,2));
                     block3x3.markCell(blockRow, blockCol, row, col, digit, status);
                 }
             }
