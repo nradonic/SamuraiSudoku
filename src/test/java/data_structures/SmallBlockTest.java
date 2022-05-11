@@ -22,9 +22,9 @@ class SmallBlockTest
     {
         SmallBlock k = new SmallBlock();
         k.setCell(0, 0, 1, CellStatus.fixed);
-        String expected = "F1-P123456789-P123456789\n" +
-                "P123456789-P123456789-P123456789\n" +
-                "P123456789-P123456789-P123456789\n";
+        String expected = "F1-P23456789-P23456789\n" +
+                "P23456789-P23456789-P23456789\n" +
+                "P23456789-P23456789-P23456789\n";
         assertEquals(expected, k.reportSmallBlock(), "small block comparison Fixed");
     }
 
@@ -33,9 +33,9 @@ class SmallBlockTest
     {
         SmallBlock k = new SmallBlock();
         k.setCell(2, 1, 6, CellStatus.calculated);
-        String expected = "P123456789-P123456789-P123456789\n" +
-                "P123456789-P123456789-P123456789\n" +
-                "P123456789-C6-P123456789\n";
+        String expected = "P12345789-P12345789-P12345789\n" +
+                "P12345789-P12345789-P12345789\n" +
+                "P12345789-C6-P12345789\n";
         assertEquals(expected, k.reportSmallBlock(), "small block comparison Calculated");
     }
 
