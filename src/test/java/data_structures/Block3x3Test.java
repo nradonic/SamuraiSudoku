@@ -21,7 +21,6 @@ class Block3x3Test
         Block3x3 block3x3 = new Block3x3();
         assertEquals(expected, block3x3.reportBlock3x3());
         System.out.println(block3x3.reportBlock3x3() + "\n");
-        System.out.println(block3x3.reportBlock3x3ShortFormat() + "\n");
     }
 
 
@@ -31,7 +30,6 @@ class Block3x3Test
         Block3x3 block3x3 = new Block3x3();
         assertEquals("Valid",block3x3.markCell(0,0,0,1,7,CellStatus.fixed), "7");
         System.out.println(block3x3.reportBlock3x3() + "\n");
-        System.out.println(block3x3.reportBlock3x3ShortFormat() + "\n");
 
     }
 

@@ -32,7 +32,7 @@ class BoardIOTest
     {
         Block3x3 block3x3 = BoardIO.loadBoard();
 
-        System.out.print("File Loaded: \n" + block3x3.reportBlock3x3ShortFormat());
+        System.out.print("File Loaded: \n" + block3x3.reportBlock3x3() + "\n");
     }
 
 

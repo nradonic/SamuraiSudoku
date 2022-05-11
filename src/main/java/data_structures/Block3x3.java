@@ -45,15 +45,6 @@ public class Block3x3
         return result.toString();
     }
 
-    public String reportBlock3x3ShortFormat()
-    {
-        String reportLong = this.reportBlock3x3();
-//        String reportShort = reportLong.replace("P123456789", "  ");
-//        reportShort += "\n";
-//        return reportShort;
-        return reportLong;
-    }
-
     public String markCell(int blockRow, int blockCol, int row, int col, int digit, CellStatus status)
     {
         // is digit found - across lines or in column or in block? if so don't insert - return error

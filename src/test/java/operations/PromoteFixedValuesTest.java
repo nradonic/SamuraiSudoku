@@ -10,7 +10,7 @@ class PromoteFixedValuesTest
     {
         String fileName = "start1.sudoku";
         Block3x3 block3x3 = BoardIO.loadBoardFromResources(fileName);
-        block3x3.reportBlock3x3ShortFormat();
+        block3x3.reportBlock3x3();
 
 
 
