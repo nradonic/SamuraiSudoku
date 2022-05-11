@@ -19,7 +19,7 @@ class SudokuCellTest
     {
         SudokuCell sudokuCell = new SudokuCell();
         sudokuCell.markDigit(3, CellStatus.fixed);
-        assertEquals("F3", sudokuCell.report());
+        assertEquals("F  3      ", sudokuCell.report());
     }
 
     @Test
@@ -27,7 +27,7 @@ class SudokuCellTest
     {
         SudokuCell sudokuCell = new SudokuCell();
         sudokuCell.markDigit(5, CellStatus.calculated);
-        assertEquals("C5", sudokuCell.report());
+        assertEquals("C    5    ", sudokuCell.report());
     }
 
     @Test
@@ -35,7 +35,7 @@ class SudokuCellTest
     {
         SudokuCell sudokuCell = new SudokuCell();
         sudokuCell.markDigit(7, CellStatus.notpossible);
-        assertEquals("P12345689", sudokuCell.report());
+        assertEquals("P123456 89", sudokuCell.report());
     }
 
     @Test
