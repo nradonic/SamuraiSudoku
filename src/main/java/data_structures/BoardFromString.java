@@ -22,7 +22,7 @@ public class BoardFromString
             assert (dataBits.length == 9);
 
             int blockRow = rowIndex / 3;
-            int row = blockRow % 3;
+            int row = rowIndex % 3;
 
             processColumns(block3x3, dataBits, blockRow, row);
         }
@@ -30,13 +30,13 @@ public class BoardFromString
 
     private static void processColumns(Block3x3 block3x3, String[] dataBits, int blockRow, int row)
     {
-        for (int column = 0; column < 9; column++)
+        for (int columnIndex = 0; columnIndex < 9; columnIndex++)
         {
-            int blockCol = column / 3;
-            int col = column % 3;
+            int blockCol = columnIndex / 3;
+            int col = columnIndex % 3;
 
-            String item = dataBits[column].replaceAll(" ", "");
-            if(!item.isBlank())
+            String item = dataBits[columnIndex].replaceAll(" ", "");
+            if(!item.isEmpty())
             {
                 setCell(block3x3, blockRow, row, blockCol, col, item);
             }

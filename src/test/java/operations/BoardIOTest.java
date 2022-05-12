@@ -34,6 +34,15 @@ class BoardIOTest
 
         System.out.print("File Loaded: \n" + block3x3.reportBlock3x3() + "\n");
         int a = 1;
+        boolean change = true;
+        while (change)
+        {
+            change = PromoteFixedValues.promoteProbableSingles(block3x3);
+            if (change)
+            {
+                System.out.println("\nRevisions: " + "\n" + block3x3.reportBlock3x3() + "\n");
+            }
+        }
     }
 
 

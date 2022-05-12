@@ -39,6 +39,7 @@ public class BoardIO
     public static Block3x3 loadBoard()
     {
         JFileChooser jFileChooser = new JFileChooser();
+        int resFile = jFileChooser.showOpenDialog(null);
         File file = jFileChooser.getSelectedFile();
         String board = loadBoard(file);
         Block3x3 block3x3 = BoardFromString.createBoard(board);
