@@ -10,9 +10,16 @@ class PromoteFixedValuesTest
     {
         String fileName = "start1.sudoku";
         Block3x3 block3x3 = BoardIO.loadBoardFromResources(fileName);
-        block3x3.reportBlock3x3();
+        System.out.println("\nFile: " + fileName + "\n" + block3x3.reportBlock3x3() + "\n");
 
-
-
+        boolean change = true;
+        while (change)
+        {
+            change = PromoteFixedValues.promoteProbableSingles(block3x3);
+            if (change)
+            {
+                System.out.println("\nSingles: " + fileName + "\n" + block3x3.reportBlock3x3() + "\n");
+            }
+        }
     }
 }

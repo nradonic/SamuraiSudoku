@@ -78,10 +78,10 @@ class Block3x3Test
         assertEquals("Valid",block3x3.markCell(2,1,2,1,3,CellStatus.fixed), "7");
 
         System.out.println(block3x3.reportBlock3x3() + "\n");
-        assertEquals(true, block3x3.containsDefiniteDigitInRow(0, 0, 7),"Row 007" );
-        assertEquals(true, block3x3.containsDefiniteDigitInColumn(1, 1, 3),"Column 113" );
-        assertEquals(false, block3x3.containsDefiniteDigitInRow(0, 0, 9),"Row 007" );
-        assertEquals(false, block3x3.containsDefiniteDigitInColumn(1, 1, 8),"Column 113" );
+        assertTrue(block3x3.containsDefiniteDigitInRow(0, 0, 7), "Row 007");
+        assertTrue(block3x3.containsDefiniteDigitInColumn(1, 1, 3), "Column 113");
+        assertFalse(block3x3.containsDefiniteDigitInRow(0, 0, 9), "Row 007");
+        assertFalse(block3x3.containsDefiniteDigitInColumn(1, 1, 8), "Column 113");
     }
 
 }

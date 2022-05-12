@@ -15,7 +15,6 @@ public class Block3x3
                 block3x3[i][j] = new SmallBlock();
             }
         }
-
     }
 
     public String reportBlock3x3()
@@ -26,13 +25,13 @@ public class Block3x3
         {
             for (int smallBlockRow = 0; smallBlockRow < height; smallBlockRow++)
             {
-                String k = "";
+                StringBuilder k = new StringBuilder();
                 for (int blockCol = 0; blockCol < width; blockCol++)
                 {
-                    k += block3x3[blockRow][blockCol].reportRow(smallBlockRow);
+                    k.append(block3x3[blockRow][blockCol].reportRow(smallBlockRow));
                     if (blockCol < width - 1)
                     {
-                        k += " - ";
+                        k.append(" - ");
                     }
                 }
                 result.append(k);
@@ -106,5 +105,9 @@ public class Block3x3
         return block3x3[blockRow][blockCol].isDigitInSmallBlock(digit);
     }
 
-    ;
+    public String reportCell(int blockRow, int blockCol, int row, int col)
+    {
+        String cellStatus = block3x3[blockRow][blockCol].reportCell(row,col);
+        return cellStatus;
+    }
 }

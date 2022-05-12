@@ -20,13 +20,13 @@ public class SmallBlock
 
     public String reportSmallBlock()
     {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < height; i++)
         {
-            result += reportRow(i);
-            result += "\n";
+            result.append(reportRow(i));
+            result.append("\n");
         }
-        return result;
+        return result.toString();
     }
 
     public String reportRow(int row)
@@ -36,6 +36,12 @@ public class SmallBlock
                 smallBlock[row][1].report(),
                 smallBlock[row][2].report());
         return result;
+    }
+
+    public String reportCell(int row, int col)
+    {
+        String cellStatus = smallBlock[row][col].report();
+        return cellStatus;
     }
 
     public String setCell(int row, int col, int digit, CellStatus status)

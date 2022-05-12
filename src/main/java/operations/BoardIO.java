@@ -12,21 +12,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class BoardIO
 {
     private static String loadBoard(File file)
     {
-        String board = "";
+        StringBuilder board = new StringBuilder();
         try
         {
             Scanner myReader = new Scanner(file);
             while (myReader.hasNextLine())
             {
-                board += myReader.nextLine() + "\n";
+                board.append(myReader.nextLine()).append("\n");
             }
             myReader.close();
         } catch (FileNotFoundException e)
@@ -35,13 +33,12 @@ public class BoardIO
             e.printStackTrace();
         }
 
-        return board;
+        return board.toString();
     }
 
     public static Block3x3 loadBoard()
     {
         JFileChooser jFileChooser = new JFileChooser();
-        int resFile = jFileChooser.showOpenDialog(null);
         File file = jFileChooser.getSelectedFile();
         String board = loadBoard(file);
         Block3x3 block3x3 = BoardFromString.createBoard(board);
@@ -58,7 +55,7 @@ public class BoardIO
 
     private static String loadResourceFile(String fileName)
     {
-        String result = "";
+        StringBuilder result = new StringBuilder();
 
         ClassLoader classLoader = BoardIO.class.getClassLoader();
 
@@ -70,20 +67,18 @@ public class BoardIO
             String line;
             while ((line = reader.readLine()) != null)
             {
-                System.out.println(line);
-                result += line + "\n";
+                result.append(line).append("\n");
             }
 
         } catch (IOException e)
         {
             System.out.println("File read error: " + e.getMessage());
         }
-        return result;
+        return result.toString();
     }
 
     public static void saveBoard(Block3x3 block3x3, String filePath)
     {
-        Path path = Paths.get(filePath);
 
         try
         {

@@ -1,58 +1,55 @@
 package data_structures;
 
-import java.util.ArrayList;
-
 public class BoardFromString
 {
     public static Block3x3 createBoard(String board)
     {
         Block3x3 block3x3 = new Block3x3();
-        String b2 = board.replaceAll(" ", "");
-        String[] rows = b2.split("\n");
-        // 9 lines
+        String[] rows = board.split("\n");
         assert (rows.length == 9);
 
+        processRows(block3x3, rows);
+        return block3x3;
+    }
+
+    private static void processRows(Block3x3 block3x3, String[] rows)
+    {
         for (int rowIndex = 0; rowIndex < 9; rowIndex++)
         {
             String[] dataBits = rows[rowIndex].split("-");
+
+            System.out.println("Row: " + rows[rowIndex] );
             assert (dataBits.length == 9);
 
             int blockRow = rowIndex / 3;
             int row = blockRow % 3;
 
-            for (int column = 0; column < 9; column++)
-            {
-                int blockCol = column / 3;
-                int col = column % 3;
-
-                String item = dataBits[column];
-                CellStatus status = CellStatus.getStatusFromString(item);
-                if(status == CellStatus.fixed)
-                {
-                    int digit = Integer.parseInt(item.substring(1,2));
-                    block3x3.markCell(blockRow, blockCol, row, col, digit, status);
-                }
-            }
+            processColumns(block3x3, dataBits, blockRow, row);
         }
-        return block3x3;
     }
 
-
-    private static int[] stripStatus(String item)
+    private static void processColumns(Block3x3 block3x3, String[] dataBits, int blockRow, int row)
     {
-        ArrayList<Integer> results = new ArrayList<>();
-
-        for (int i = 1; i < item.length(); i++)
+        for (int column = 0; column < 9; column++)
         {
-            results.add(Integer.parseInt(item.substring(i, i)));
-        }
-        int[] arr = new int[results.size()];
+            int blockCol = column / 3;
+            int col = column % 3;
 
-        for (int i = 0; i < results.size(); i++)
+            String item = dataBits[column].replaceAll(" ", "");
+            if(!item.isBlank())
+            {
+                setCell(block3x3, blockRow, row, blockCol, col, item);
+            }
+        }
+    }
+
+    private static void setCell(Block3x3 block3x3, int blockRow, int row, int blockCol, int col, String item)
+    {
+        CellStatus status = CellStatus.getStatusFromString(item);
+        if (status == CellStatus.fixed)
         {
-            arr[i] = results.get(i);
+            int digit = Integer.parseInt(item.substring(1, 2));
+            block3x3.markCell(blockRow, blockCol, row, col, digit, status);
         }
-
-        return arr;
     }
 }
