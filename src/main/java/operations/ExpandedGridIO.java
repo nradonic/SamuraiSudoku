@@ -49,12 +49,23 @@ public class ExpandedGridIO
 
     public static ExpandedGrid loadExpandedGrid()
     {
+        File file = pickFile();
+        ExpandedGrid expandedGrid = loadJsonFile(file);
+        return expandedGrid;
+    }
+
+    private static ExpandedGrid loadJsonFile(File file)
+    {
+        String board = loadBoard(file);
+        return new Gson().fromJson(board, ExpandedGrid.class);
+    }
+
+    private static File pickFile()
+    {
         JFileChooser jFileChooser = new JFileChooser();
         int resFile = jFileChooser.showOpenDialog(null);
         File file = jFileChooser.getSelectedFile();
-        String board = loadBoard(file);
-        ExpandedGrid expandedGrid = new Gson().fromJson(board, ExpandedGrid.class);
-        return expandedGrid;
+        return file;
     }
 
     private static String loadBoard(File file)

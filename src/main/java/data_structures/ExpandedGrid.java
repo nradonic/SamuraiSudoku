@@ -1,5 +1,8 @@
 package data_structures;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class ExpandedGrid
 {
     private Integer rows;
@@ -46,5 +49,34 @@ public class ExpandedGrid
         }
         String line = data[row].replaceAll("[\\D]", "");
         return line.substring(column, column + 1);
+    }
+
+    public String report()
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Label: " + label + "\n");
+        stringBuilder.append("Type: " + type + ", Revision: " + rev + "\n");
+        stringBuilder.append("Rows: " + rows + " : " + "Columns: " + columns + "\n");
+        stringBuilder.append("Data:\n" + dataToString() + "\n");
+        stringBuilder.append("Block locations:\n" + blocksToString() + "\n");
+        return stringBuilder.toString();
+    }
+
+    private String dataToString()
+    {
+        String result = Arrays.stream(data).collect(Collectors.joining("\n"));
+        return result;
+    }
+
+    private String blocksToString()
+    {
+        String result = Arrays.stream(blocks9x9).map(k -> "(" + k[0] + "," + k[1] + ")").collect(Collectors.joining("\n"));
+        return result;
+
+    }
+
+    public void bumpRevision()
+    {
+        rev++;
     }
 }
