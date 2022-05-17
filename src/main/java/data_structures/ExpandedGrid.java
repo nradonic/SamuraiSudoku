@@ -8,7 +8,7 @@ public class ExpandedGrid
     private Integer rows;
     private Integer columns;
     private String[] data;
-    private Integer[][] blocks9x9;
+    private Integer[][] blockPositions9x9;
     private String type;
     private String label;
     private Integer rev;
@@ -34,7 +34,7 @@ public class ExpandedGrid
         result &= rows >= 9;
         result &= columns >= 9;
         result &= data.length == rows;
-        result &= blocks9x9.length >= 1;
+        result &= blockPositions9x9.length >= 1;
         result &= !type.isEmpty();
         result &= rev != null;
         return result;
@@ -54,25 +54,24 @@ public class ExpandedGrid
     public String report()
     {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Label: " + label + "\n");
-        stringBuilder.append("Type: " + type + ", Revision: " + rev + "\n");
-        stringBuilder.append("Rows: " + rows + " : " + "Columns: " + columns + "\n");
-        stringBuilder.append("Data:\n" + dataToString() + "\n");
-        stringBuilder.append("Block locations:\n" + blocksToString() + "\n");
+        stringBuilder.append("Label: " + label + "\n")
+                .append("Type: " + type + ", Revision: " + rev + "\n")
+                .append("Rows: " + rows + " : " + "Columns: " + columns + "\n")
+                .append("Data:\n" + dataToString() + "\n")
+                .append("Block locations:\n" + blockPositions() + "\n");
         return stringBuilder.toString();
     }
 
     private String dataToString()
     {
-        String result = Arrays.stream(data).collect(Collectors.joining("\n"));
-        return result;
+        return Arrays.stream(data).collect(Collectors.joining("\n"));
     }
 
-    private String blocksToString()
+    private String blockPositions()
     {
-        String result = Arrays.stream(blocks9x9).map(k -> "(" + k[0] + "," + k[1] + ")").collect(Collectors.joining("\n"));
-        return result;
-
+        return Arrays.stream(blockPositions9x9).
+                map(k -> "(" + k[0] + "," + k[1] + ")").
+                collect(Collectors.joining("\n"));
     }
 
     public void bumpRevision()

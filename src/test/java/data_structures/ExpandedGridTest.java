@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ExpandedGridTest
 {
@@ -28,6 +29,7 @@ class ExpandedGridTest
         System.out.println("\nExpanded Grid: " + "\n" + expandedGrid.report() + "\n");
         expandedGrid.bumpRevision();
         System.out.println("\nExpanded Grid: " + "\n" + expandedGrid.report() + "\n");
+        assertTrue(expandedGrid.assertValid(), "assert valid expanded grid");
 
     }
 

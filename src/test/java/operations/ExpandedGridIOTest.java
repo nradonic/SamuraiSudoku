@@ -4,6 +4,7 @@ import data_structures.ExpandedGrid;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ExpandedGridIOTest
@@ -13,8 +14,8 @@ class ExpandedGridIOTest
     void loadGridFromResourceFile()
     {
         ExpandedGrid expandedGrid = ExpandedGridIO.loadBoardFromResources("wapo_5_1_21x21.sudoku");
-        assertTrue(expandedGrid.getRows() == 21, "21 rows");
-        assertTrue(expandedGrid.getColumns() == 21, "21 columns");
+        assertEquals(21, expandedGrid.getRows(), "21 rows");
+        assertEquals(21, expandedGrid.getColumns(), "21 columns");
         assertTrue(expandedGrid.assertValid(), "expandedGrid validity test");
     }
 
