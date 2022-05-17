@@ -74,6 +74,11 @@ public class ExpandedGrid
                 collect(Collectors.joining("\n"));
     }
 
+    public Integer[][] getblockPositions()
+    {
+        return blockPositions9x9;
+    }
+
     public void bumpRevision()
     {
         rev++;
