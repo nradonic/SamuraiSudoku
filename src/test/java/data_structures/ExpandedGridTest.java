@@ -38,7 +38,6 @@ class ExpandedGridTest
         expandedGrid.bumpRevision();
         System.out.println("\nExpanded Grid: " + "\n" + expandedGrid.report() + "\n");
         assertTrue(expandedGrid.assertValid(), "assert valid expanded grid");
-
     }
 
     @Test
@@ -89,5 +88,15 @@ class ExpandedGridTest
         }
     }
 
+    @Test
+    void testModificationOfOriginalGrid()
+    {
+        ExpandedGrid expandedGrid = getExpandedGridFromResourceFile();
+        System.out.println("Original:\n"+expandedGrid.report()+"\n");
+        expandedGrid.setCell(0,0,9);
+        String result = expandedGrid.reportCell(0,0);
+        assertEquals("9", result, "modified cell 0,0 should be 9");
+        System.out.println("\nModified:\n"+expandedGrid.report()+"\n");
 
+    }
 }

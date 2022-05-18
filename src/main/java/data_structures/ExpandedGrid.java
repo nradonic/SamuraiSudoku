@@ -51,6 +51,30 @@ public class ExpandedGrid
         return line.substring(column, column + 1);
     }
 
+    public void setCell(int row, int column, int value)
+    {
+        String temp = data[row].replaceAll("[\\D]", "");
+        String[] k = temp.split("");
+        k[column] = Integer.toString(value);
+
+        String line = String.join("", k);
+        data[row] = line;
+
+
+//        StringBuilder res = new StringBuilder();
+//        int indexChar = 0;
+//        for (int i = 0; i < temp.length(); i++)
+//        {
+//            String c = temp.substring(i, i + 1);
+//            int k1 = c.compareTo("1");
+//            int k9 = c.compareTo("9");
+//            if (k1 >= 0 && k9 <= 0)
+//            {
+//                res.append();
+//            }
+//        }
+    }
+
     public String report()
     {
         StringBuilder stringBuilder = new StringBuilder();
