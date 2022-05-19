@@ -58,21 +58,30 @@ public class ExpandedGrid
         k[column] = Integer.toString(value);
 
         String line = String.join("", k);
-        data[row] = line;
 
 
-//        StringBuilder res = new StringBuilder();
-//        int indexChar = 0;
-//        for (int i = 0; i < temp.length(); i++)
-//        {
-//            String c = temp.substring(i, i + 1);
-//            int k1 = c.compareTo("1");
-//            int k9 = c.compareTo("9");
-//            if (k1 >= 0 && k9 <= 0)
-//            {
-//                res.append();
-//            }
-//        }
+        StringBuilder stringBuilder = new StringBuilder();
+
+        int kIndex = 0;
+
+        for (int i = 0; i < data[row].length(); i++)
+        {
+            String si = data[row].substring(i, i + 1);
+            if (isDigit(si))
+            {
+                stringBuilder.append(k[kIndex]);
+                kIndex++;
+                continue;
+            }
+            stringBuilder.append(si);
+        }
+
+        data[row] = stringBuilder.toString();
+    }
+
+    private boolean isDigit(String si)
+    {
+        return (si.compareTo("0") >= 0 && si.compareTo("9") <= 0);
     }
 
     public String report()

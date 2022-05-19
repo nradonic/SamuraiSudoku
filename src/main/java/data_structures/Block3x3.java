@@ -1,5 +1,7 @@
 package data_structures;
 
+import java.util.ArrayList;
+
 public class Block3x3
 {
     final int width = 3;
@@ -107,7 +109,33 @@ public class Block3x3
 
     public String reportCell(int blockRow, int blockCol, int row, int col)
     {
-        String cellStatus = block3x3[blockRow][blockCol].reportCell(row,col);
+        String cellStatus = block3x3[blockRow][blockCol].reportCell(row, col);
         return cellStatus;
+    }
+
+    public ArrayList<Integer[]> changesList()
+    {
+        ArrayList<Integer[]> changes = new ArrayList<>();
+
+        for (int rowBlock = 0; rowBlock < 3; rowBlock++)
+        {
+            for (int columnBlock = 0; columnBlock < 3; columnBlock++)
+            {
+                for (int row = 0; row < 3; row++)
+                {
+                    for (int column = 0; column < 3; column++)
+                    {
+
+                        String temp = block3x3[rowBlock][columnBlock].reportCell(row, column);
+                        Integer value = Integer.parseInt(temp.substring(1).replaceAll(" ", ""));
+                        if (temp.startsWith("C"))
+                        {
+                            changes.add(new Integer[]{rowBlock, columnBlock, row, column, value});
+                        }
+                    }
+                }
+            }
+        }
+        return changes;
     }
 }
