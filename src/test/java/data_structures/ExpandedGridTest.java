@@ -6,6 +6,8 @@ import operations.PromoteFixedValues;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -49,17 +51,19 @@ class ExpandedGridTest
         Integer[][] blockPositions = expandedGrid.getblockPositions();
         int boards = blockPositions.length;
 
-        Block3x3[] sudokus = new Block3x3[boards];
+        Block3x3[] sudokus = new Block3x3[]{};
 
-        extractSudokus(expandedGrid, blockPositions, sudokus);
         boolean collectedChanges = true;
         while (collectedChanges)
         {
+            sudokus = extractSudokus(expandedGrid, blockPositions, boards);
+            System.out.println("***************************\nStarting point:\n" + expandedGrid.report());
             collectedChanges = false;
             for (int i = 0; i < boards; i++)
             {
                 boolean boardChange = true;
-                System.out.println("\nCoords: " + blockPositions[i][0] + "  " + blockPositions[i][1] + "\n" + sudokus[i].reportBlock3x3() + "\n\n");
+//                System.out.println("\nCoords: " + blockPositions[i][0] + "  " + blockPositions[i][1] + "\n"
+//                + sudokus[i].reportBlock3x3() + "\n\n");
                 while (boardChange)
                 {
                     boardChange = PromoteFixedValues.promoteProbableSingles(sudokus[i]);
@@ -68,38 +72,69 @@ class ExpandedGridTest
                         collectedChanges = true;
                     }
                 }
-                if (collectedChanges)
-                {
-                    System.out.println("\nCoords: " + blockPositions[i][0] + "  " + blockPositions[i][1] + "\n" + sudokus[i].reportBlock3x3() + "\n");
-                }
+//                if (collectedChanges)
+//                {
+//                    System.out.println("\nCoords: " + blockPositions[i][0] + "  " + blockPositions[i][1] + "\n"
+//                    + sudokus[i].reportBlock3x3() + "\n");
+//                }
             }
-            propagateCalculatedValuesToExpandedGrid(expandedGrid, boards, blockPositions, sudokus);
-            System.out.println("*******************  Next Loop  *******************");
+            findCalculatedValues(expandedGrid, boards, blockPositions, sudokus);
+
+            System.out.println("Changes: " + collectedChanges + "  *******************  Next Loop  *******************\n");//+ expandedGrid.report());
         }
     }
 
-    private void propagateCalculatedValuesToExpandedGrid(ExpandedGrid expandedGrid, int boards, Integer[][] blockPositions, Block3x3[] sudokus)
+    private void findCalculatedValues(ExpandedGrid expandedGrid, int boards, Integer[][] blockPositions, Block3x3[] sudokus)
     {
-        for (int board = 0; board<boards;board++)
+        for (int board = 0; board < boards; board++)
         {
-            System.out.println(sudokus[board].reportBlock3x3());
+//            System.out.println(sudokus[board].reportBlock3x3());
             var x = sudokus[board].changesList();
-            for (int j = 0; j<x.size();j++){
-                System.out.println(); //TBD print out list of changes....and metadata
+            System.out.println("C changes list: Board: " + blockPositions[board][0] + ":" + blockPositions[board][1]);
+            for (int j = 0; j < x.size(); j++)
+            {
+                System.out.println(x.get(j)[0] + ":" + x.get(j)[1] + ":" + x.get(j)[2] + ":" + x.get(j)[3] + ":"
+                        + x.get(j)[4]); //TBD print out list of changes....and metadata
             }
-            int a=1;
+            insertChangesIntoExpandedGrid(expandedGrid, blockPositions[board], x);
+            int a = 1;
         }
     }
 
-    private void extractSudokus(ExpandedGrid expandedGrid, Integer[][] blockPositions, Block3x3[] sudokus)
+    private void insertChangesIntoExpandedGrid(ExpandedGrid expandedGrid, Integer[] blockPositions, ArrayList<Integer[]> x)
     {
+        int blockRow = 3;
+        int blockColumn = 3;
+        int rowIndex = 2;
+        int columnIndex = 3;
+        int valuePosition = 4;
+
+        //System.out.println("Original:\n" + expandedGrid.report() + "\n");
+
+        for (int i = 0; i < x.size(); i++)
+        {
+            int row = blockPositions[0] + x.get(i)[0] * blockRow + x.get(i)[2];
+            int column = blockPositions[1] + x.get(i)[1] * blockColumn + x.get(i)[3];
+            int value = x.get(i)[4];
+            expandedGrid.setCell(row, column, value);
+            System.out.println("Set cell: Row: " + row + "  Column: " + column + " Value: " + value);
+        }
+    }
+
+    private Block3x3[] extractSudokus(ExpandedGrid expandedGrid, Integer[][] blockPositions, int boards)
+    {
+        Block3x3[] sudokus = new Block3x3[boards];
+
         Integer[] coords;
         for (int i = 0; i < blockPositions.length; i++)
         {
             coords = blockPositions[i];
             sudokus[i] = GridToBox.extractBlockFromGrid(expandedGrid, coords[0], coords[1]);
-            System.out.println("Coords: " + coords[0] + ":" + coords[1] + "\n" + sudokus[i].reportBlock3x3() + "\n\n");
+//            System.out.println("Coords: " + coords[0] + ":" + coords[1] + "\n" + sudokus[i].reportBlock3x3() + "\n\n");
+            System.out.println("Coords: " + coords[0] + ":" + coords[1] + "\n" + sudokus[i].reportBlock3x3() + "\n");
+
         }
+        return sudokus;
     }
 
     @Test

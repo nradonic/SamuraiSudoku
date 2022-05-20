@@ -25,7 +25,7 @@ public class PromoteFixedValues
                         String cellStatus = block3x3.reportCell(bigblockRow, bigblockCol, smallblockRow, smallblockCol);
                         if (probableAndSingle(cellStatus))
                         {
-                            System.out.println("Changes: " + bigblockRow + ":" + bigblockCol + ":" + smallblockRow + ":" + smallblockCol + ":" + getDigit(cellStatus));
+//                            System.out.println("Changes: " + bigblockRow + ":" + bigblockCol + ":" + smallblockRow + ":" + smallblockCol + ":" + getDigit(cellStatus));
 
                             block3x3.markCell(bigblockRow, bigblockCol, smallblockRow, smallblockCol, getDigit(cellStatus), CellStatus.calculated);
                             promoted = true;
