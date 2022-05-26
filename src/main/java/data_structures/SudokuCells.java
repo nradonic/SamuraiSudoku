@@ -1,10 +1,17 @@
 package data_structures;
 
+import grid_operations.MarkGridCell;
+
+import java.util.Iterator;
+
 public class SudokuCells
 {
     SudokuCell[][] data;
     int rows;
     int columns;
+
+    private static int iteratorRow = 0;
+    private static int iteratorColumn = 0;
 
     public SudokuCells(int rows0, int columns0)
     {
@@ -35,8 +42,9 @@ public class SudokuCells
                 String k = expandedGrid.reportCell(i, j);
                 if (k.compareTo("0") > 0)
                 {
-                    int l = Integer.parseInt(k);
-                    data[i][j].markDigit(l, CellStatus.fixed);
+                    int value = Integer.parseInt(k);
+                    data[i][j].markDigit(value, CellStatus.fixed);
+                    MarkGridCell.markDigit(expandedGrid, this, i, j, value, CellStatus.fixed);
                 }
             }
         }
@@ -52,20 +60,20 @@ public class SudokuCells
                 String k = data[row][column].report();
                 String l = k.replaceAll("P123456789", "          ");
                 stringBuilder.append(l);
-                stringBuilder.append(".");
-                if ((column + 1) % 3 == 0)
+                if ((column + 1) % 3 == 0 && (column + 1) != 9 && (column + 1) != 12)
                 {
-                    stringBuilder.append(".");
+                    stringBuilder.append(" | ");
                 }
-                if ((column + 1) % 9 == 0)
+                if ((column + 1) == 9)
                 {
-                    stringBuilder.append(".");
+                    stringBuilder.append(" || ");
                 }
-                if ((column + 1) % 12 == 0)
+                if ((column + 1) == 12)
                 {
-                    stringBuilder.append(".");
+                    stringBuilder.append(" || ");
                 }
             }
+
             stringBuilder.append("\n");
             if ((row + 1) % 3 == 0)
             {
@@ -81,5 +89,52 @@ public class SudokuCells
             }
         }
         return stringBuilder.toString();
+    }
+
+    public void markCell(int row, int column, int value, CellStatus cellStatus)
+    {
+        data[row][column].markDigit(value, cellStatus);
+    }
+
+    public SudokuCell getCell(int row, int column)
+    {
+        return data[row][column];
+    }
+
+    public Iterator<SudokuCell> iterator()
+    {
+        iteratorRow = 0;
+        iteratorColumn = 0;
+
+        return new Iterator<SudokuCell>()
+        {
+            @Override
+            public boolean hasNext()
+            {
+                iteratorColumn++;
+                if (iteratorColumn >= columns)
+                {
+                    iteratorRow++;
+                }
+                return iteratorRow < rows && iteratorColumn < columns;
+            }
+
+            @Override
+            public SudokuCell next()
+            {
+                return data[iteratorRow][iteratorColumn];
+            }
+
+            public int iteratorRow()
+            {
+                return iteratorRow;
+            }
+
+            public int iteratorColumn()
+            {
+                return iteratorColumn;
+            }
+
+        };
     }
 }

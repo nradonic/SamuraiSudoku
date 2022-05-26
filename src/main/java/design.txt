@@ -1,0 +1,18 @@
+
+
+    Algorithm:
+
+    Singular loop until there are no more changes
+        loop over cells
+            is the current cell calculated singular?
+                if so promote it in the main grid
+                mask off the disallowed cells - calculate effective zones with box overlays
+                print out the changed cell and value
+        report grid after each loop
+
+
+
+    Masking cells with value
+        define 9x9 blocks
+        check for calculated singles in every 9x9 block
+        turn off possibles on 9x9 row, and 9x9 column and 9x9 3x3smallblock

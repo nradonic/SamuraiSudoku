@@ -10,10 +10,10 @@ public class Start
     {
 
         ExpandedGrid expandedGrid = ExpandedGridIO.loadBoardFromResources("wapo_5_1_21x21.sudoku");
-        int rows = expandedGrid.getRows();
-        int columns = expandedGrid.getColumns();
 
+        // map expanded grid to a grid of Sudoku cells
         SudokuCells sudokuGrid = new SudokuCells(expandedGrid);
+
         System.out.println(sudokuGrid.reportCells());
     }
 
