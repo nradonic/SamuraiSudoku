@@ -1,14 +1,24 @@
 package data_structures;
 
 import grid_operations.MarkGridCell;
+import junit.framework.Assert;
 
 import java.util.Iterator;
 
 public class SudokuCells
 {
+    ExpandedGrid expandedGrid;
     SudokuCell[][] data;
     int rows;
     int columns;
+
+    int smallBlockRows = 0;
+    int smallBlockColumns = 0;
+    SmallBlock[][] smallBlocks;
+
+    Block3x3[] block3x3s;
+    Integer[][] blockPositions9x9; // array of two position arrays: [][row,column]
+    int boards = 0;
 
     private static int iteratorRow = 0;
     private static int iteratorColumn = 0;
@@ -25,16 +35,88 @@ public class SudokuCells
         }
         rows = rows0;
         columns = columns0;
+        Assert.assertTrue("\nExpect nonzero rows and columns and divisible by 3 rows:" + rows + "  columns:" + columns,
+                rows % 3 == 0 && columns % 3 == 0 && rows > 0 && columns > 0);
     }
 
     public SudokuCells(ExpandedGrid expandedGrid)
     {
         this(expandedGrid.getRows(), expandedGrid.getColumns());
-        mapCells(expandedGrid);
+
+        mapIndividualCells(expandedGrid);
+        mapSudokuStructures();
+        System.out.println("Report All:\n" + reportBlock3x3s());
     }
 
-    private void mapCells(ExpandedGrid expandedGrid)
+    public String reportBlock3x3s()
     {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int b = 0; b < boards; b++)
+        {
+            stringBuilder.append("\nBoard: " + b + "  at: " + blockPositions9x9[b][0] + ":" + blockPositions9x9[b][1] + "\n");
+            stringBuilder.append(block3x3s[b].reportBlock3x3() + "\n\n");
+        }
+        return stringBuilder.toString();
+    }
+
+    private void mapSudokuStructures()
+    {
+
+        smallBlockRows = rows / 3;
+        smallBlockColumns = columns / 3;
+        blockPositions9x9 = expandedGrid.getblockPositions();
+        boards = blockPositions9x9.length;
+
+        mapSmallBlocks();
+        mapBlocks3x3();
+    }
+
+    private void mapBlocks3x3()
+    {
+        block3x3s = new Block3x3[blockPositions9x9.length];
+        for (int b = 0; b < boards; b++)
+        {
+            Integer[] baseCoords = blockPositions9x9[b];
+            int baseBlockRow = baseCoords[0] / 3;
+            int baseBlockColumn = baseCoords[1] / 3;
+            SmallBlock[][] smallBlocksTemp = new SmallBlock[3][3];
+
+            for (int blockRow = 0; blockRow < 3; blockRow++)
+            {
+                for (int blockColumn = 0; blockColumn < 3; blockColumn++)
+                {
+                    smallBlocksTemp[blockRow][blockColumn] = smallBlocks[blockRow + baseBlockRow][blockColumn + baseBlockColumn];
+                }
+            }
+            block3x3s[b] = new Block3x3(smallBlocksTemp);
+        }
+    }
+
+    private void mapSmallBlocks()
+    {
+        smallBlocks = new SmallBlock[smallBlockRows][smallBlockColumns];
+        for (int blockRow = 0; blockRow < smallBlockRows; blockRow++)
+        {
+            for (int blockColumn = 0; blockColumn < smallBlockColumns; blockColumn++)
+            {
+                SudokuCell[][] smallBlocksTemp = new SudokuCell[3][3];
+                for (int row1 = 0; row1 < 3; row1++)
+                {
+                    for (int column1 = 0; column1 < 3; column1++)
+                    {
+                        int rowOffset = blockRow * 3 + row1;
+                        int columnOffset = blockColumn * 3 + column1;
+                        smallBlocksTemp[row1][column1] = data[rowOffset][columnOffset];
+                    }
+                }
+                smallBlocks[blockRow][blockColumn] = new SmallBlock(smallBlocksTemp);
+            }
+        }
+    }
+
+    private void mapIndividualCells(ExpandedGrid expandedGrid)
+    {
+        this.expandedGrid = expandedGrid;
         for (int i = 0; i < expandedGrid.getRows(); i++)
         {
             for (int j = 0; j < expandedGrid.getColumns(); j++)

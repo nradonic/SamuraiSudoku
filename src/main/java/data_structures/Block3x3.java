@@ -19,6 +19,17 @@ public class Block3x3
         }
     }
 
+    public Block3x3(SmallBlock[][] smallBlocks)
+    {
+        for (int row = 0; row < 3; row++)
+        {
+            for (int column = 0; column < 3; column++)
+            {
+                block3x3[row][column] = smallBlocks[row][column];
+            }
+        }
+    }
+
     public String reportBlock3x3()
     {
         StringBuilder result = new StringBuilder();

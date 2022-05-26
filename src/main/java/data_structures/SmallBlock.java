@@ -18,6 +18,11 @@ public class SmallBlock
         }
     }
 
+    public SmallBlock(SudokuCell[][] smallBlockFromCells)
+    {
+        this.smallBlock = smallBlockFromCells;
+    }
+
     public String reportSmallBlock()
     {
         StringBuilder result = new StringBuilder();

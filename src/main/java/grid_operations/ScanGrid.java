@@ -1,7 +1,10 @@
 package grid_operations;
 
 import data_structures.ExpandedGrid;
+import data_structures.SudokuCell;
 import data_structures.SudokuCells;
+
+import java.util.Iterator;
 
 public class ScanGrid
 {
@@ -10,6 +13,12 @@ public class ScanGrid
     {
 
         StringBuilder result = new StringBuilder();
+        boolean cellsPromoted = false;
+        do
+        {
+            Iterator<SudokuCell> sudokuCellIterator = sudokuCells.iterator();
+
+        } while (cellsPromoted);
 
 
         return result.toString();
