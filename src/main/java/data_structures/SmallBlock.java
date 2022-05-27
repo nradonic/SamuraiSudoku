@@ -51,10 +51,10 @@ public class SmallBlock
 
     public String setCell(int row, int col, int digit, CellStatus status)
     {
-        if (!isValidInSmallBlock(digit))
-        {
-            return "Invalid";
-        }
+//        if (!isValidInSmallBlock(digit))
+//        {
+//            return "Invalid";
+//        }
         smallBlock[row][col].markDigit(digit, status);
         if (status == CellStatus.fixed || status == CellStatus.calculated)
         {

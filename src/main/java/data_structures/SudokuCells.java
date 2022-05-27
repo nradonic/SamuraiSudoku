@@ -22,6 +22,8 @@ public class SudokuCells
 
     private static int iteratorRow = 0;
     private static int iteratorColumn = 0;
+    private static int lastDeliveredIteratorRow = 0;
+    private static int lastDeliveredIteratorColumn = 0;
 
     public SudokuCells(int rows0, int columns0)
     {
@@ -135,6 +137,8 @@ public class SudokuCells
     public String reportCells()
     {
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("--------------------\n");
+
         for (int row = 0; row < rows; row++)
         {
             for (int column = 0; column < columns; column++)
@@ -161,11 +165,11 @@ public class SudokuCells
             {
                 stringBuilder.append("\n");
             }
-            if ((row + 1) % 9 == 0)
+            if ((row + 1) == 9)
             {
                 stringBuilder.append("\n\n");
             }
-            if ((row + 1) % 12 == 0)
+            if ((row + 1) == 12)
             {
                 stringBuilder.append("\n");
             }
@@ -176,6 +180,30 @@ public class SudokuCells
     public void markCell(int row, int column, int value, CellStatus cellStatus)
     {
         data[row][column].markDigit(value, cellStatus);
+        for (int b = 0; b < boards; b++)
+        {
+            if (isInBlock(row, column, blockPositions9x9[b]))
+            {
+                Block3x3 sudoku = block3x3s[b];
+
+                int boxRow = row - blockPositions9x9[b][0];
+                int smallBlockHorizontal = boxRow / 3;
+                int smallBlockRow = boxRow - 3 * smallBlockHorizontal;
+
+                int boxColumn = column - blockPositions9x9[b][1];
+                int smallBlockVertical = boxColumn / 3;
+                int smallBlockColumn = boxColumn - smallBlockVertical * 3;
+
+                sudoku.markCell(smallBlockHorizontal, smallBlockVertical, smallBlockRow, smallBlockColumn, value, cellStatus);
+            }
+        }
+    }
+
+    private boolean isInBlock(int row, int column, Integer[] integers)
+    {
+        boolean result = row >= integers[0] && row < integers[0] + 9
+                && column >= integers[1] && column < integers[1] + 9;
+        return result;
     }
 
     public SudokuCell getCell(int row, int column)
@@ -187,36 +215,43 @@ public class SudokuCells
     {
         iteratorRow = 0;
         iteratorColumn = 0;
+        lastDeliveredIteratorRow = 0;
+        lastDeliveredIteratorColumn = 0;
 
         return new Iterator<SudokuCell>()
         {
             @Override
             public boolean hasNext()
             {
-                iteratorColumn++;
-                if (iteratorColumn >= columns)
-                {
-                    iteratorRow++;
-                }
                 return iteratorRow < rows && iteratorColumn < columns;
             }
 
             @Override
             public SudokuCell next()
             {
-                return data[iteratorRow][iteratorColumn];
-            }
+                lastDeliveredIteratorRow = iteratorRow;
+                lastDeliveredIteratorColumn = iteratorColumn;
 
-            public int iteratorRow()
-            {
-                return iteratorRow;
-            }
+                SudokuCell k = data[iteratorRow][iteratorColumn];
 
-            public int iteratorColumn()
-            {
-                return iteratorColumn;
+                iteratorColumn++;
+                if (iteratorColumn >= columns)
+                {
+                    iteratorRow++;
+                    iteratorColumn = 0;
+                }
+                return k;
             }
-
         };
+    }
+
+    public int iteratorRow()
+    {
+        return lastDeliveredIteratorRow;
+    }
+
+    public int iteratorColumn()
+    {
+        return lastDeliveredIteratorColumn;
     }
 }

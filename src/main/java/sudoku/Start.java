@@ -2,6 +2,7 @@ package sudoku;
 
 import data_structures.ExpandedGrid;
 import data_structures.SudokuCells;
+import grid_operations.ScanGrid;
 import operations.ExpandedGridIO;
 
 public class Start
@@ -15,6 +16,13 @@ public class Start
         SudokuCells sudokuGrid = new SudokuCells(expandedGrid);
 
         System.out.println(sudokuGrid.reportCells());
+        ScanGrid.loopOverGrid(sudokuGrid);
+        System.out.println(sudokuGrid.reportCells());
+        ScanGrid.loopOverGrid(sudokuGrid);
+        System.out.println(sudokuGrid.reportCells());
+
+
+
     }
 
 }

@@ -60,11 +60,15 @@ public class Block3x3
     public String markCell(int blockRow, int blockCol, int row, int col, int digit, CellStatus status)
     {
         // is digit found - across lines or in column or in block? if so don't insert - return error
-        boolean digitFound = ValidityCheck.isDigitFound(this, blockRow, blockCol, row, col, digit);
-        if (digitFound)
-        {
-            return "Invalid";
-        }
+//        boolean digitFound = ValidityCheck.isDigitFound(this, blockRow, blockCol, row, col, digit);
+//        if (digitFound)
+//        {
+//            return "Invalid";
+//        }
+//        if(status==CellStatus.calculated){
+//            System.out.println("blockRow: "+blockRow+" blockColumn: "+ blockCol+ " row: " + row + "  column: " + col + "  status: " + CellStatus.calculated.toString() + " " + digit + "\n");
+//
+//        }
         String result = "";
         for (int blockRowIndex = 0; blockRowIndex < 3; blockRowIndex++)
         {

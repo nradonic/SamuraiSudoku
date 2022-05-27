@@ -30,8 +30,6 @@ public enum CellStatus
                 return possible;
             case "C":
                 return calculated;
-            case "N":
-                return notpossible;
             default:
                 return notpossible;
         }

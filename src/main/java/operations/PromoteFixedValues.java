@@ -25,7 +25,7 @@ public class PromoteFixedValues
                         String cellStatus = block3x3.reportCell(bigblockRow, bigblockCol, smallblockRow, smallblockCol);
                         if (probableAndSingle(cellStatus))
                         {
-//                            System.out.println("Changes: " + bigblockRow + ":" + bigblockCol + ":" + smallblockRow + ":" + smallblockCol + ":" + getDigit(cellStatus));
+                            System.out.println("Changes: " + bigblockRow + ":" + bigblockCol + ":" + smallblockRow + ":" + smallblockCol + ":" + getDigit(cellStatus));
 
                             block3x3.markCell(bigblockRow, bigblockCol, smallblockRow, smallblockCol, getDigit(cellStatus), CellStatus.calculated);
                             promoted = true;
@@ -47,8 +47,8 @@ public class PromoteFixedValues
     {
         boolean possible = status.substring(0, 1).equals(CellStatus.possible.getSymbol());
         String digits = substring(status, 1).replaceAll(" ", "");
-        boolean length2 = digits.length() == 1;
-        return possible && length2;
+        boolean digitsLengthIs1 = digits.length() == 1;
+        return possible && digitsLengthIs1;
     }
 
 }
