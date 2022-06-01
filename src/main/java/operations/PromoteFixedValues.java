@@ -45,7 +45,7 @@ public class PromoteFixedValues
 
     private static boolean probableAndSingle(String status)
     {
-        boolean possible = status.substring(0, 1).equals(CellStatus.possible.getSymbol());
+        boolean possible = status.substring(0, 1).equals(CellStatus.possible.symbol());
         String digits = substring(status, 1).replaceAll(" ", "");
         boolean digitsLengthIs1 = digits.length() == 1;
         return possible && digitsLengthIs1;

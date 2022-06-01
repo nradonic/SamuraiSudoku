@@ -2,7 +2,7 @@ package data_structures;
 
 import static org.apache.maven.surefire.shade.org.apache.commons.lang3.StringUtils.leftPad;
 
-public class SudokuCell
+public class SudokuCell implements Comparable<SudokuCell>
 {
     final int digits = 10;
 
@@ -22,13 +22,13 @@ public class SudokuCell
     public String report()
     {
         boolean b = existsStatus(CellStatus.fixed);
-        if (b) return leftPad("F" + whichValues(CellStatus.fixed),10);
+        if (b) return leftPad("F" + whichDigitValues(CellStatus.fixed), 10);
 
         b = existsStatus(CellStatus.possible);
-        if (b) return leftPad( "P" + whichValues(CellStatus.possible),10);
+        if (b) return leftPad("P" + whichDigitValues(CellStatus.possible), 10);
 
         b = existsStatus(CellStatus.calculated);
-        if (b) return leftPad("C" + whichValues(CellStatus.calculated),10);
+        if (b) return leftPad("C" + whichDigitValues(CellStatus.calculated), 10);
 
         return "Error no fixed, calculated, or possible cell value";
     }
@@ -45,7 +45,7 @@ public class SudokuCell
         return false;
     }
 
-    private String whichValues(CellStatus status)
+    private String whichDigitValues(CellStatus status)
     {
         StringBuilder result = new StringBuilder();
         for (int i = 1; i < digits; i++)
@@ -96,4 +96,42 @@ public class SudokuCell
                 sudokuValues[digit] == CellStatus.calculated;
     }
 
+    public Score scoreCell()
+    {
+        boolean b = existsStatus(CellStatus.fixed);
+        if (b) return new Score(CellStatus.fixed, whichDigitValues(CellStatus.fixed).replaceAll(" ", ""));
+
+        b = existsStatus(CellStatus.calculated);
+        if (b) return new Score(CellStatus.calculated, whichDigitValues(CellStatus.calculated).replaceAll(" ", ""));
+
+        b = existsStatus(CellStatus.possible);
+        if (b) return new Score(CellStatus.possible, whichDigitValues(CellStatus.possible).replaceAll(" ", ""));
+
+
+        return new Score(CellStatus.notpossible, whichDigitValues(CellStatus.notpossible).replaceAll(" ", ""));
+
+    }
+
+    @Override
+    public int compareTo(SudokuCell o)
+    {
+        Score scoreExternal = o.scoreCell();
+        Score scoreInternal = scoreCell();
+        int k = scoreInternal.cellStatus.weight() - scoreExternal.cellStatus.weight();
+        if (k != 0)
+        {
+            return (int) Math.signum(k);
+        }
+        if (scoreInternal.cellStatus != CellStatus.possible)
+        {
+            return 0;
+        }
+        return (int) Math.signum(
+                o.whichDigitValues(CellStatus.possible)
+                        .replaceAll(" ", "")
+                        .length()
+                        - whichDigitValues(CellStatus.possible)
+                        .replaceAll(" ", "")
+                        .length());
+    }
 }

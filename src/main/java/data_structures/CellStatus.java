@@ -2,21 +2,28 @@ package data_structures;
 
 public enum CellStatus
 {
-    fixed("F"),
-    possible("P"),
-    notpossible("N"),
-    calculated("C");
+    fixed("F", 4),
+    possible("P", 2),
+    notpossible("N", 1),
+    calculated("C", 3);
 
     private final String symbol;
+    private final int weight;
 
-    CellStatus(String f)
+    CellStatus(String f, int weight)
     {
         this.symbol = f;
+        this.weight = weight;
     }
 
-    public String getSymbol()
+    public String symbol()
     {
         return this.symbol;
+    }
+
+    public int weight()
+    {
+        return weight;
     }
 
     public static CellStatus getStatusFromString(String item)
