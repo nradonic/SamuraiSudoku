@@ -45,7 +45,7 @@ public class SudokuCell implements Comparable<SudokuCell>
         return false;
     }
 
-    private String whichDigitValues(CellStatus status)
+    protected String whichDigitValues(CellStatus status)
     {
         StringBuilder result = new StringBuilder();
         for (int i = 1; i < digits; i++)
@@ -133,5 +133,15 @@ public class SudokuCell implements Comparable<SudokuCell>
                         - whichDigitValues(CellStatus.possible)
                         .replaceAll(" ", "")
                         .length());
+    }
+
+    public SudokuCell deepClone()
+    {
+        SudokuCell sudokuCell1 = new SudokuCell();
+        for (int i = 0; i < digits; i++)
+        {
+            sudokuCell1.markDigit(i, sudokuValues[i]);
+        }
+        return sudokuCell1;
     }
 }

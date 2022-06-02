@@ -43,7 +43,7 @@ public class ScanGrid
                             Assert.assertTrue("Not Possible Status: " + status, false);
                         case "C":
                             sudokuCells.markCell(row, column, Integer.parseInt(digits), CellStatus.calculated);
-                            System.out.println("row: " + row + "  column: " + column + "  status: " + CellStatus.calculated.toString() + " " + digits + "\n");
+//                            System.out.println("row: " + row + "  column: " + column + "  status: " + CellStatus.calculated.toString() + " " + digits + "\n");
                             break;
                         default:
                             Assert.assertTrue("Base case: " + status, false);

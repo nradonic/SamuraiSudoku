@@ -46,6 +46,7 @@ public class SudokuCells
         this(expandedGrid.getRows(), expandedGrid.getColumns());
 
         mapIndividualCells(expandedGrid);
+        blockPositions9x9 = expandedGrid.getblockPositions();
         mapSudokuStructures();
         System.out.println("Report All:\n" + reportBlock3x3s());
     }
@@ -66,7 +67,7 @@ public class SudokuCells
 
         smallBlockRows = rows / 3;
         smallBlockColumns = columns / 3;
-        blockPositions9x9 = expandedGrid.getblockPositions();
+
         boards = blockPositions9x9.length;
 
         mapSmallBlocks();
@@ -92,6 +93,7 @@ public class SudokuCells
             }
             block3x3s[b] = new Block3x3(smallBlocksTemp);
         }
+        int a = 1;
     }
 
     private void mapSmallBlocks()
@@ -253,5 +255,52 @@ public class SudokuCells
     public int iteratorColumn()
     {
         return lastDeliveredIteratorColumn;
+    }
+
+    private SudokuCells(int rows, int columns, int boards, SudokuCell[][] data, Integer[][] blockPositions9x9)
+    {
+        this.rows = rows;
+        this.columns = columns;
+        this.data = data;
+        this.blockPositions9x9 = blockPositions9x9;
+        this.boards = boards;
+        this.smallBlockRows = rows / 3;
+        this.smallBlockColumns = columns / 3;
+        mapSmallBlocks();
+        mapBlocks3x3();
+    }
+
+    public SudokuCells deepClone()
+    {
+
+        SudokuCells clone = new SudokuCells(rows, columns, boards, cloneData(), cloneBlockPositions9x9());
+        return clone;
+    }
+
+
+    private SudokuCell[][] cloneData()
+    {
+        SudokuCell[][] sudokuCells = new SudokuCell[rows][columns];
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                sudokuCells[i][j] = data[i][j].deepClone();
+            }
+        }
+        return sudokuCells;
+    }
+
+    private Integer[][] cloneBlockPositions9x9()
+    {
+        Integer[][] blockPositions = new Integer[blockPositions9x9.length][2];
+        for (int i = 0; i < blockPositions9x9.length; i++)
+        {
+            for (int j = 0; j < 2; j++)
+            {
+                blockPositions[i][j] = blockPositions9x9[i][j];
+            }
+        }
+        return blockPositions;
     }
 }
