@@ -23,12 +23,20 @@ public class GridToBox
                 int column = columnIndex % 3;
 
                 String s = expandedGrid.reportCell(baseRow + rowIndex, baseColumn + columnIndex);
-                int digit = Integer.parseInt(s);
-                CellStatus status = CellStatus.fixed;
-                if (digit != 0)
+                if (!s.equals("X"))
                 {
-                    String marksuccess = block3x3.markCell(blockRow, blockColumn, row, column, digit, status);
-                    success &= marksuccess.equals("Valid");
+                    int digit = Integer.parseInt(s);
+                    CellStatus status = CellStatus.fixed;
+                    if (digit != 0)
+                    {
+                        String marksuccess = block3x3.markCell(blockRow, blockColumn, row, column, digit, status);
+                        success &= marksuccess.equals("Valid");
+                    }
+                    continue;
+                }
+                if(s.equals("X"))
+                {
+                    String marksuccess = block3x3.markCell(blockRow, blockColumn, row, column, 0, CellStatus.exclude);
                 }
             }
 

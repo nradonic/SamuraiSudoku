@@ -46,6 +46,8 @@ class ExpandedGridTest
     void selectAllSubPuzzles()
     {
         ExpandedGrid expandedGrid = getExpandedGridFromResourceFile();
+        System.out.println("***************************\nStarting point 0:\n" + expandedGrid.report());
+
         assertTrue(expandedGrid.assertValid());
 
         Integer[][] blockPositions = expandedGrid.getblockPositions();
@@ -57,13 +59,11 @@ class ExpandedGridTest
         while (collectedChanges)
         {
             sudokus = extractSudokus(expandedGrid, blockPositions, boards);
-            System.out.println("***************************\nStarting point:\n" + expandedGrid.report());
+            System.out.println("***************************\nStarting point 1:\n" + expandedGrid.report());
             collectedChanges = false;
             for (int i = 0; i < boards; i++)
             {
                 boolean boardChange = true;
-//                System.out.println("\nCoords: " + blockPositions[i][0] + "  " + blockPositions[i][1] + "\n"
-//                + sudokus[i].reportBlock3x3() + "\n\n");
                 while (boardChange)
                 {
                     boardChange = PromoteFixedValues.promoteProbableSingles(sudokus[i]);
@@ -72,11 +72,6 @@ class ExpandedGridTest
                         collectedChanges = true;
                     }
                 }
-//                if (collectedChanges)
-//                {
-//                    System.out.println("\nCoords: " + blockPositions[i][0] + "  " + blockPositions[i][1] + "\n"
-//                    + sudokus[i].reportBlock3x3() + "\n");
-//                }
             }
             findCalculatedValues(expandedGrid, boards, blockPositions, sudokus);
 
@@ -87,8 +82,8 @@ class ExpandedGridTest
     private void findCalculatedValues(ExpandedGrid expandedGrid, int boards, Integer[][] blockPositions, Block3x3[] sudokus)
     {
         for (int board = 0; board < boards; board++)
+
         {
-//            System.out.println(sudokus[board].reportBlock3x3());
             var x = sudokus[board].changesList();
             System.out.println("C changes list: Board: " + blockPositions[board][0] + ":" + blockPositions[board][1]);
             for (int j = 0; j < x.size(); j++)
@@ -130,7 +125,6 @@ class ExpandedGridTest
         {
             coords = blockPositions[i];
             sudokus[i] = GridToBox.extractBlockFromGrid(expandedGrid, coords[0], coords[1]);
-//            System.out.println("Coords: " + coords[0] + ":" + coords[1] + "\n" + sudokus[i].reportBlock3x3() + "\n\n");
             System.out.println("Coords: " + coords[0] + ":" + coords[1] + "\n" + sudokus[i].reportBlock3x3() + "\n");
 
         }
@@ -149,5 +143,13 @@ class ExpandedGridTest
 
     }
 
+
+    @Test
+    void stripNonDigits()
+    {
+        ExpandedGrid expandedGrid = getExpandedGridFromResourceFile();
+        var result = expandedGrid.gameDigitFilter("0 1 2 3 4asdf,sdnfewijeawofi 5678 9 xX xx");
+        assertEquals("0123456789XXXX", result,"filtering game characters");
+    }
 
 }

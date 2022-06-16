@@ -5,7 +5,9 @@ public enum CellStatus
     fixed("F", 4),
     possible("P", 2),
     notpossible("N", 1),
-    calculated("C", 3);
+    calculated("C", 3),
+    exclude("X", 0);
+
 
     private final String symbol;
     private final int weight;
@@ -37,6 +39,8 @@ public enum CellStatus
                 return possible;
             case "C":
                 return calculated;
+            case "X":
+                return exclude;
             default:
                 return notpossible;
         }

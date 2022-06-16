@@ -142,7 +142,7 @@ public class Block3x3
                     {
 
                         String temp = block3x3[rowBlock][columnBlock].reportCell(row, column);
-                        Integer value = Integer.parseInt(temp.substring(1).replaceAll(" ", ""));
+                        Integer value = Integer.parseInt(temp.substring(1).replaceAll("[^\\d|x|X]", ""));
                         if (temp.startsWith("C"))
                         {
                             changes.add(new Integer[]{rowBlock, columnBlock, row, column, value});

@@ -19,4 +19,11 @@ public class MarkGridCell
     {
         return false;
     }
+
+//    public static void markAllPossible(SudokuCells sudokuCells, int row, int column)
+//    {
+//        sudokuCells.data[row][column].
+//    }
+//
+
 }

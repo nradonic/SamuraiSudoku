@@ -7,7 +7,6 @@ import java.util.Iterator;
 
 public class SudokuCells
 {
-    ExpandedGrid expandedGrid;
     SudokuCell[][] data;
     int rows;
     int columns;
@@ -120,20 +119,35 @@ public class SudokuCells
 
     private void mapIndividualCells(ExpandedGrid expandedGrid)
     {
-        this.expandedGrid = expandedGrid;
         for (int i = 0; i < expandedGrid.getRows(); i++)
         {
             for (int j = 0; j < expandedGrid.getColumns(); j++)
             {
                 String k = expandedGrid.reportCell(i, j);
-                if (k.compareTo("0") > 0)
+                if (k.equals("X"))
+                {
+                    markExcluded(i, j);
+//                    System.out.print("Excluded: row: " + i + " column: " + j + "\n");
+                    continue;
+                }
+                if (k.equals("0"))
+                {
+                    continue;
+                }
+                if (k.compareTo("0") > 0 && k.compareTo("9") <= 0)
                 {
                     int value = Integer.parseInt(k);
                     data[i][j].markDigit(value, CellStatus.fixed);
                     MarkGridCell.markDigit(expandedGrid, this, i, j, value, CellStatus.fixed);
                 }
+
             }
         }
+    }
+
+    private void markExcluded(int i, int j)
+    {
+        data[i][j].excludeCell();
     }
 
     public String reportCells()

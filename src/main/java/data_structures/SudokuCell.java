@@ -30,7 +30,11 @@ public class SudokuCell implements Comparable<SudokuCell>
         b = existsStatus(CellStatus.calculated);
         if (b) return leftPad("C" + whichDigitValues(CellStatus.calculated), 10);
 
-        return "Error no fixed, calculated, or possible cell value";
+        b = existsStatus(CellStatus.exclude);
+        if (b) return leftPad(" ", 10);
+
+        //return "Error no fixed, calculated, or possible cell value";
+        return "..........";
     }
 
     private boolean existsStatus(CellStatus status)
@@ -107,8 +111,11 @@ public class SudokuCell implements Comparable<SudokuCell>
         b = existsStatus(CellStatus.possible);
         if (b) return new Score(CellStatus.possible, whichDigitValues(CellStatus.possible).replaceAll(" ", ""));
 
+        b = existsStatus(CellStatus.notpossible);
+        if (b) return new Score(CellStatus.notpossible, whichDigitValues(CellStatus.notpossible).replaceAll(" ", ""));
 
-        return new Score(CellStatus.notpossible, whichDigitValues(CellStatus.notpossible).replaceAll(" ", ""));
+
+        return new Score(CellStatus.exclude, whichDigitValues(CellStatus.exclude).replaceAll(" ", ""));
 
     }
 
@@ -143,5 +150,13 @@ public class SudokuCell implements Comparable<SudokuCell>
             sudokuCell1.markDigit(i, sudokuValues[i]);
         }
         return sudokuCell1;
+    }
+
+    public void excludeCell()
+    {
+        for (int i = 0; i < digits; i++)
+        {
+            markDigit(i,CellStatus.exclude);
+        }
     }
 }

@@ -47,13 +47,27 @@ public class ExpandedGrid
             System.out.println("Expanded Grid index out of legal range, row: " + row + " column: " + column);
             return "Invalid";
         }
-        String line = data[row].replaceAll("[\\D]", "");
+        String line = gameDigitFilter(data[row]);
         return line.substring(column, column + 1);
+    }
+
+    String gameDigitFilter(String s)
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < s.length(); i++)
+        {
+            var k = s.substring(i, i + 1);
+            if (k.compareTo("0") >= 0 && k.compareTo("9") <= 0 || k.toUpperCase().equals("X"))
+            {
+                stringBuilder.append(k.toUpperCase());
+            }
+        }
+        return stringBuilder.toString();
     }
 
     public void setCell(int row, int column, int value)
     {
-        String temp = data[row].replaceAll("[\\D]", "");
+        String temp = gameDigitFilter(data[row]);
         String[] k = temp.split("");
         k[column] = Integer.toString(value);
 
