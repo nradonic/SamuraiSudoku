@@ -25,6 +25,7 @@ public class ScanGrid
                 SudokuCell sudokuCell = sudokuCellIterator.next();
                 int row = sudokuCells.iteratorRow();
                 int column = sudokuCells.iteratorColumn();
+
                 String s = sudokuCell.report();
                 String status = s.substring(0, 1);
                 String digit = s.substring(1).replaceAll(" ", "");
@@ -34,7 +35,7 @@ public class ScanGrid
                     {
                         case "P":
                             sudokuCells.markCell(row, column, Integer.parseInt(digit), CellStatus.calculated);
-                            OperationLogging.markLogging(row,column, CellStatus.calculated, digit);
+                            OperationLogging.markLogging(row, column, CellStatus.calculated, digit);
 //                            System.out.println("row: " + row + "  column: " + column + "  status: " + CellStatus.calculated.toString() + " " + digit + "\n");
                             cellsPromoted = true;
                             break;
@@ -43,11 +44,13 @@ public class ScanGrid
                             break;
                         case "N":
                             Assert.assertTrue("Not Possible Status: " + status, false);
+                            break;
                         case "C":
                             sudokuCells.markCell(row, column, Integer.parseInt(digit), CellStatus.calculated);
 //                            System.out.println("row: " + row + "  column: " + column + "  status: " + CellStatus.calculated.toString() + " " + digits + "\n");
                             break;
-                        case "X": continue;
+                        case "X":
+                            break;
                         default:
                             Assert.assertTrue("Base case: " + status, false);
                     }

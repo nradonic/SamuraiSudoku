@@ -215,6 +215,17 @@ public class SudokuCells
         }
     }
 
+    public boolean isInAnySudoku9x9Board(int row, int column)
+    {
+        boolean result = false;
+        for (int b = 0; b < boards; b++)
+        {
+            result |= isInBlock(row, column, blockPositions9x9[b]);
+        }
+        return result;
+    }
+
+
     private boolean isInBlock(int row, int column, Integer[] integers)
     {
         boolean result = row >= integers[0] && row < integers[0] + 9

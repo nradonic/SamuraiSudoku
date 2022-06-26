@@ -10,7 +10,7 @@ public class OperationLogging
     public static void markLogging(int row, int column, CellStatus cellStatus, String digit)
     {
         System.out.println("Line: " + cellMarks + "  row: " + row + "  column: " + column + "  status: " +
-                CellStatus.calculated.toString() + " " + digit + "\n");
+                CellStatus.calculated.toString() + " " + digit );
         cellMarks++;
     }
 }
